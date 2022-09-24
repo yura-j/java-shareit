@@ -4,10 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.ItemStorage;
 import ru.practicum.shareit.item.model.Item;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -42,7 +39,7 @@ public class ItemStorageImpl implements ItemStorage {
         return storage
                 .values()
                 .stream()
-                .filter(item -> ownerId == item.getOwner().getId())
+                .filter(item -> Objects.equals(ownerId, item.getOwner().getId()))
                 .collect(Collectors.toList());
     }
 
