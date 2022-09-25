@@ -23,6 +23,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleAlreadyFoundException(final AlreadyExistException e) {
+        log.info("409{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -31,6 +32,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(final ValidationException e) {
+        log.info("400{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -39,6 +41,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleAccessException(final HasNoAccessException e) {
+        log.info("403{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -47,6 +50,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidationException(final NoSuchElementException e) {
+        log.info("400{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -55,14 +59,16 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
+        log.info("400{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleConstraintThrowableException(Throwable e) {
+        log.info("500{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
