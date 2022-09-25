@@ -9,9 +9,6 @@ import ru.practicum.shareit.marker.Update;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -20,12 +17,15 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long ownerId, @Validated({Create.class}) @RequestBody ItemDto dto) {
+    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+                              @Validated({Create.class}) @RequestBody ItemDto dto) {
         return itemService.createItem(dto, ownerId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long ownerId, @PathVariable Long itemId, @Validated({Update.class}) @RequestBody ItemDto dto) {
+    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+                              @PathVariable Long itemId,
+                              @Validated({Update.class}) @RequestBody ItemDto dto) {
         return itemService.updateItem(dto, itemId, ownerId);
     }
 
