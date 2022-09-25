@@ -66,9 +66,9 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleConstraintThrowableException(Throwable e) {
-        log.info("500{}", e.getMessage());
+        log.info("400{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
