@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserStorage userStorage;
+    private final UserRepository userStorage;
 
     @Override
     public List<UserDto> getUsers() {
         return userStorage
-                .getUsers()
+                .findAll()
                 .stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
@@ -48,17 +48,17 @@ public class UserServiceImpl implements UserService {
         user.setName(null == dto.getName() ? user.getName() : dto.getName());
         user.setEmail(null == dto.getEmail() ? user.getEmail() : dto.getEmail());
 
-        userStorage.update(user);
+        userStorage.save(user);
         return UserMapper.toUserDto(user);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        userStorage.delete(userId);
+        userStorage.deleteById(userId);
     }
 
     private void checkEmailUnique(UserDto dto) {
-        List<User> users = userStorage.getUsers();
+        List<User> users = userStorage.findAll();
         for (User user : users) {
             if (dto.getEmail().equals(user.getEmail())) {
                 throw new AlreadyExistException("Пользователь с таким емайл уже зарегистрирован");

@@ -5,14 +5,14 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.HasNoAccessException;
 import ru.practicum.shareit.error.NotFoundException;
 import ru.practicum.shareit.item.ItemMapper;
+import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.ItemService;
-import ru.practicum.shareit.item.ItemStorage;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.request.RequestStorage;
+import ru.practicum.shareit.request.RequestRepository;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserStorage;
+import ru.practicum.shareit.user.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,14 +22,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-    private final UserStorage userStorage;
-    private final RequestStorage requestStorage;
-    private final ItemStorage itemStorage;
+    private final UserRepository userStorage;
+    private final RequestRepository requestStorage;
+    private final ItemRepository itemStorage;
 
     @Override
     public ItemDto createItem(ItemDto dto, Long ownerId) {
         User owner = userStorage.findById(ownerId).orElseThrow(NotFoundException::new);
-        ItemRequest request = requestStorage.findById(dto.getRequestId()).orElse(null);
+        Long requestId = null != dto.getRequestId() ? dto.getRequestId() : 0L;
+        ItemRequest request = requestStorage.findById(requestId).orElse(null);
         Item item = ItemMapper.toItem(dto, owner, request);
         itemStorage.save(item);
         return ItemMapper.toItemDto(item);
@@ -38,7 +39,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto updateItem(ItemDto dto, Long itemId, Long ownerId) {
         Item item = itemStorage.findById(itemId).orElseThrow();
-
         if (!Objects.equals(item.getOwner().getId(), ownerId)) {
             throw new HasNoAccessException("Нет доступа");
         }
@@ -46,8 +46,8 @@ public class ItemServiceImpl implements ItemService {
         item.setDescription(null == dto.getDescription() ? item.getDescription() : dto.getDescription());
         item.setName(null == dto.getName() ? item.getName() : dto.getName());
         item.setIsAvailable(null == dto.getAvailable() ? item.getIsAvailable() : dto.getAvailable());
-
-        itemStorage.update(item);
+        System.out.println(item);
+        itemStorage.save(item);
         return ItemMapper.toItemDto(item);
     }
 
