@@ -46,7 +46,6 @@ public class ItemServiceImpl implements ItemService {
         item.setDescription(null == dto.getDescription() ? item.getDescription() : dto.getDescription());
         item.setName(null == dto.getName() ? item.getName() : dto.getName());
         item.setIsAvailable(null == dto.getAvailable() ? item.getIsAvailable() : dto.getAvailable());
-        System.out.println(item);
         itemStorage.save(item);
         return ItemMapper.toItemDto(item);
     }
