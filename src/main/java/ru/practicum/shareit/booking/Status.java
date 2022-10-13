@@ -1,8 +1,19 @@
 package ru.practicum.shareit.booking;
 
 public enum Status {
-    WAITING,
+    ALL,
     APPROVED,
     REJECTED,
-    CANCELED
+    WAITING,
+    FUTURE,
+    CURRENT,
+    PAST;
+
+    public static Status from(String statusParameter) {
+        try {
+            return Status.valueOf(statusParameter);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

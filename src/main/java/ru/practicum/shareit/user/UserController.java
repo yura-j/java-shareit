@@ -8,7 +8,6 @@ import ru.practicum.shareit.marker.Create;
 import ru.practicum.shareit.marker.Update;
 import ru.practicum.shareit.user.dto.UserDto;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
