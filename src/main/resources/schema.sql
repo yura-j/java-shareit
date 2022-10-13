@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS items (
   description VARCHAR(512) NOT NULL,
   is_available BOOLEAN NOT NULL,
   owner_id BIGINT NOT NULL,
-  request_id BIGINT NOT NULL,
+  request_id BIGINT,
 
   CONSTRAINT pk_item PRIMARY KEY (id),
   CONSTRAINT owner_fk
