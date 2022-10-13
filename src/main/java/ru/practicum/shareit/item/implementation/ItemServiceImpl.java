@@ -79,6 +79,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> searchItemsByText(String text) {
+
         return itemStorage
                 .findAvailableItemsByText(text)
                 .stream()
