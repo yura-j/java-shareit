@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.dto.BookingDtoMapper;
+import ru.practicum.shareit.booking.dto.BookingItemDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingsDto;
 import ru.practicum.shareit.item.implementation.CommentMapper;
@@ -54,6 +55,15 @@ public class ItemMapper {
                         .map(CommentMapper::fromComment)
                         .collect(Collectors.toList())
                 )
+                .build();
+    }
+
+    public static BookingItemDto toBookingItemDto(Item item) {
+        return BookingItemDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getIsAvailable())
                 .build();
     }
 }

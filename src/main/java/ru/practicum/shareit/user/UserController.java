@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.error.AlreadyExistException;
 import ru.practicum.shareit.marker.Create;
 import ru.practicum.shareit.marker.Update;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -38,8 +39,13 @@ public class UserController {
     @PatchMapping("/{userId}")
     public UserDto updateUser(@Validated(Update.class) @RequestBody UserDto dto, @PathVariable Long userId) {
         log.debug("Обновлен пользователь {}", userId);
-        dto.setId(userId);
-        return userService.updateUser(dto);
+        UserDto updatedUserDto;
+        try {
+            updatedUserDto = userService.updateUser(dto, userId);
+        } catch (Exception exception) {
+            throw new AlreadyExistException("Такой email уже есть");
+        }
+        return updatedUserDto;
     }
 
     @DeleteMapping("/{userId}")
