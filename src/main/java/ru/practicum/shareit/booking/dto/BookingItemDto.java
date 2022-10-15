@@ -1,15 +1,15 @@
-package ru.practicum.shareit.request.dto;
+package ru.practicum.shareit.booking.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@Builder
-public class ItemRequestDto {
+public class BookingItemDto {
     private Long id;
+    private String name;
     private String description;
-    private Long requesterId;
-    private String created;
+    private Boolean available;
 }

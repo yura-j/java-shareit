@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.error.AlreadyExistException;
 import ru.practicum.shareit.user.dto.UserDto;
 
@@ -10,15 +11,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final UserStorage userStorage;
+    private final UserRepository userStorage;
 
     @Override
     public List<UserDto> getUsers() {
         return userStorage
-                .getUsers()
+                .findAll()
                 .stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
@@ -30,39 +31,31 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toUserDto(user);
     }
 
+    @Transactional
     @Override
     public UserDto createUser(UserDto dto) {
-        checkEmailUnique(dto);
         User user = UserMapper.toUser(dto);
-        User savedUser = userStorage.save(user);
-        return UserMapper.toUserDto(savedUser);
+        try {
+            User savedUser = userStorage.save(user);
+            return UserMapper.toUserDto(savedUser);
+        } catch (Exception exception) {
+            throw new AlreadyExistException("Такой email уже есть");
+        }
     }
 
+    @Transactional
     @Override
-    public UserDto updateUser(UserDto dto) {
-        if (dto.getEmail() != null) {
-            checkEmailUnique(dto);
-        }
-        User user = userStorage.findById(dto.getId()).orElseThrow();
-
+    public UserDto updateUser(UserDto dto, Long userId) {
+        User user = userStorage.findById(userId).orElseThrow();
         user.setName(null == dto.getName() ? user.getName() : dto.getName());
         user.setEmail(null == dto.getEmail() ? user.getEmail() : dto.getEmail());
-
-        userStorage.update(user);
+        userStorage.save(user);
         return UserMapper.toUserDto(user);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long userId) {
-        userStorage.delete(userId);
-    }
-
-    private void checkEmailUnique(UserDto dto) {
-        List<User> users = userStorage.getUsers();
-        for (User user : users) {
-            if (dto.getEmail().equals(user.getEmail())) {
-                throw new AlreadyExistException("Пользователь с таким емайл уже зарегистрирован");
-            }
-        }
+        userStorage.deleteById(userId);
     }
 }

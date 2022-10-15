@@ -48,9 +48,9 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleValidationException(final NoSuchElementException e) {
-        log.info("400{}", e.getMessage());
+        log.info("404{}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()
         );
