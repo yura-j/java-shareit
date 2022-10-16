@@ -45,7 +45,7 @@ public class RequestService {
     }
 
     public List<RequestDto> getAllExceptMy(Long ownerId, Integer from, Integer size) {
-        PageRequest page = PageRequest.of(from/size, size, Sort.by(Sort.Direction.DESC, "created"));
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "created"));
         User requester = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
 
         Page<ItemRequest> requests = requestRepository.findAllByrequester_idNot(requester.getId(), page);

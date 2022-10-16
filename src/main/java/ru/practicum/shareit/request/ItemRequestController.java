@@ -10,8 +10,6 @@ import ru.practicum.shareit.request.dto.output.RequestDto;
 
 import javax.validation.ValidationException;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -26,7 +24,7 @@ public class ItemRequestController {
     public RequestDto createRequest(
             @Validated(Create.class) @RequestBody RequestCreateDto dto,
             @RequestHeader("X-Sharer-User-Id") Long ownerId
-            ) {
+    ) {
         log.debug("Создана заявка на предмет");
         return requestService.create(dto, ownerId);
     }
@@ -34,7 +32,7 @@ public class ItemRequestController {
     @GetMapping
     public List<RequestDto> getMy(
             @RequestHeader("X-Sharer-User-Id") Long ownerId
-        ) {
+    ) {
         log.debug("Запрошены предметы");
         return requestService.getMy(ownerId);
     }

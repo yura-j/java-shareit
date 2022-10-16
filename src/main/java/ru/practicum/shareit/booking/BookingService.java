@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +85,7 @@ public class BookingService {
     }
 
     public List<BookingDto> getBookings(Long ownerId, Status status, @Min(value = 0) Integer from, @Min(value = 0) Integer size) {
-        PageRequest page = PageRequest.of(from/size, size, Sort.by(Sort.Direction.DESC, "start"));
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "start"));
         Page<Booking> bookings = REAL_STATE.contains(status)
                 ? bookingRepository.findAllByBookerIdAndStatus(ownerId, status, page)
                 : bookingRepository.findAllByBookerId(ownerId, page);
@@ -99,7 +98,7 @@ public class BookingService {
     }
 
     public List<BookingDto> getOwnerBookings(Long ownerId, Status status, @Min(value = 0) Integer from, @Min(value = 0) Integer size) {
-        PageRequest page = PageRequest.of(from/size, size, Sort.by(Sort.Direction.DESC, "start_date"));
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "start_date"));
         Page<Booking> bookings = REAL_STATE.contains(status)
                 ? bookingRepository.findAllByOwnerIdAndStatus(ownerId, status.name(), page)
                 : bookingRepository.findAllByOwnerId(ownerId, page);

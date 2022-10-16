@@ -5,9 +5,9 @@ import ru.practicum.shareit.request.dto.input.RequestCreateDto;
 import ru.practicum.shareit.request.dto.output.ItemRequestDto;
 import ru.practicum.shareit.request.dto.output.RequestDto;
 import ru.practicum.shareit.user.User;
-import java.util.List;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RequestMapper {
@@ -22,8 +22,8 @@ public class RequestMapper {
         List<ItemRequestDto> items = (null == request.getItems())
                 ? new ArrayList<>()
                 : request.getItems().stream()
-                    .map(ItemMapper::toItemRequestDto)
-                    .collect(Collectors.toList());
+                .map(ItemMapper::toItemRequestDto)
+                .collect(Collectors.toList());
         return RequestDto.builder()
                 .id(request.getId())
                 .description(request.getDescription())
