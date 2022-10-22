@@ -28,7 +28,7 @@ public class RequestService {
     @Transactional
     public RequestDto create(RequestCreateDto dto, Long ownerId) {
         User requester = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
-        ItemRequest request = RequestMapper.fromDto(dto, requester);
+        Request request = RequestMapper.fromDto(dto, requester);
 
         requestRepository.save(request);
         RequestMapper.fromRequest(request);
@@ -38,7 +38,7 @@ public class RequestService {
 
     public List<RequestDto> getMy(Long ownerId) {
         User requester = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
-        List<ItemRequest> requests = requestRepository.findAllByrequester_id(requester.getId());
+        List<Request> requests = requestRepository.findAllByrequester_id(requester.getId());
         return requests.stream()
                 .map(RequestMapper::fromRequest)
                 .collect(Collectors.toList());
@@ -48,7 +48,7 @@ public class RequestService {
         PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "created"));
         User requester = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
 
-        Page<ItemRequest> requests = requestRepository.findAllByrequester_idNot(requester.getId(), page);
+        Page<Request> requests = requestRepository.findAllByrequester_idNot(requester.getId(), page);
         return requests.stream()
                 .map(RequestMapper::fromRequest)
                 .collect(Collectors.toList());
@@ -57,7 +57,7 @@ public class RequestService {
     public RequestDto get(Long requestId, Long ownerId) {
         User requester = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
 
-        ItemRequest request = requestRepository.findById(requestId).orElseThrow(NotFoundException::new);
+        Request request = requestRepository.findById(requestId).orElseThrow(NotFoundException::new);
         return RequestMapper.fromRequest(request);
     }
 }

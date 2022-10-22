@@ -9,7 +9,8 @@ import ru.practicum.shareit.request.dto.input.RequestCreateDto;
 import ru.practicum.shareit.request.dto.output.RequestDto;
 
 import javax.validation.ValidationException;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -40,8 +41,8 @@ public class ItemRequestController {
     @GetMapping("all")
     public List<RequestDto> getAllExceptMy(
             @RequestHeader("X-Sharer-User-Id") Long ownerId,
-            @Min(value = 0) @RequestParam(defaultValue = "0", required = false) Integer from,
-            @Min(value = 0) @RequestParam(defaultValue = "10", required = false) Integer size
+            @Validated @PositiveOrZero @RequestParam(defaultValue = "0", required = false) Integer from,
+            @Validated @Positive @RequestParam(defaultValue = "10", required = false) Integer size
     ) {
         log.debug("Запрошены предметы");
         if (from < 0 || size < 0) {

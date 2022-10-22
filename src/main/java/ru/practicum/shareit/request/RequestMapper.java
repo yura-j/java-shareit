@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RequestMapper {
-    public static ItemRequest fromDto(RequestCreateDto dto, User requester) {
-        return ItemRequest.builder()
+public interface RequestMapper {
+    static Request fromDto(RequestCreateDto dto, User requester) {
+        return Request.builder()
                 .description(dto.getDescription())
                 .requester(requester)
                 .build();
     }
 
-    public static RequestDto fromRequest(ItemRequest request) {
+    static RequestDto fromRequest(Request request) {
         List<ItemRequestDto> items = (null == request.getItems())
                 ? new ArrayList<>()
                 : request.getItems().stream()

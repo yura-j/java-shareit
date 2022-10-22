@@ -7,9 +7,9 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserMapper;
 
-public class BookingDtoMapper {
+public interface BookingDtoMapper {
 
-    public static Booking fromCreateDto(BookingCreateDto dto, Item item, User requester) {
+    static Booking fromCreateDto(BookingCreateDto dto, Item item, User requester) {
         return Booking
                 .builder()
                 .booker(requester)
@@ -20,7 +20,7 @@ public class BookingDtoMapper {
                 .build();
     }
 
-    public static BookingDto fromBooking(Booking booking) {
+    static BookingDto fromBooking(Booking booking) {
         return BookingDto
                 .builder()
                 .booker(UserMapper.toUserDto(booking.getBooker()))
@@ -32,7 +32,7 @@ public class BookingDtoMapper {
                 .build();
     }
 
-    public static BookingShortDto shortFromBooking(Booking booking) {
+    static BookingShortDto shortFromBooking(Booking booking) {
         return BookingShortDto
                 .builder()
                 .bookerId(booking.getBooker().getId())

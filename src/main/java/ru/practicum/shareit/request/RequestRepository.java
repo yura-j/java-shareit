@@ -7,10 +7,10 @@ import ru.practicum.shareit.user.User;
 
 import java.util.List;
 
-public interface RequestRepository extends JpaRepository<ItemRequest, Long> {
-    List<ItemRequest> findAllByRequester(User requester);
+public interface RequestRepository extends JpaRepository<Request, Long> {
+    List<Request> findAllByRequester(User requester);
 
-    List<ItemRequest> findAllByrequester_id(Long id);
+    List<Request> findAllByrequester_id(Long id);
 
-    Page<ItemRequest> findAllByrequester_idNot(Long id, PageRequest page);
+    Page<Request> findAllByrequester_idNot(Long id, PageRequest page);
 }
