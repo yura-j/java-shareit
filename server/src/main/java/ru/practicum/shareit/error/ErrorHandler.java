@@ -126,7 +126,7 @@ public class ErrorHandler {
             }
 
         } catch (Exception e) {
-
+            log.error("400{}", e);
         }
     }
 }
