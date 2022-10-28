@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.*;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -103,15 +105,15 @@ public class ErrorHandler {
         try {
             URL url = new URL(urlString);
             URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
+            HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("POST");
             http.setDoOutput(true);
 
-            Map<String,String> arguments = new HashMap<>();
+            Map<String, String> arguments = new HashMap<>();
             arguments.put("chat_id", chat);
             arguments.put("text", part);
             StringJoiner sj = new StringJoiner("&");
-            for(Map.Entry<String,String> entry : arguments.entrySet())
+            for (Map.Entry<String, String> entry : arguments.entrySet())
                 sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                         + URLEncoder.encode(entry.getValue(), "UTF-8"));
             byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
@@ -119,7 +121,7 @@ public class ErrorHandler {
             http.setFixedLengthStreamingMode(length);
             http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             http.connect();
-            try(OutputStream os = http.getOutputStream()) {
+            try (OutputStream os = http.getOutputStream()) {
                 os.write(out);
             }
 
