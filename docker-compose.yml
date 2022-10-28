@@ -26,7 +26,7 @@ services:
       - POSTGRES_PASSWORD=root
 
   db:
-    image: postgres
+    image: postgres:13.7-alpine
     container_name: pg
     ports:
       - 6541:5432
