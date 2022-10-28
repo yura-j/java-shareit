@@ -74,7 +74,7 @@ public class ErrorHandler {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         return new ErrorResponse(
-                pw.toString()
+                sw.toString()
         );
     }
 }
