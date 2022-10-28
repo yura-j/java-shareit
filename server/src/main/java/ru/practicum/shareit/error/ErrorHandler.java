@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
@@ -73,8 +75,19 @@ public class ErrorHandler {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
-        return new ErrorResponse(
-                sw.toString()
+        String stackWindow = sw.toString();
+        ErrorResponse response =  new ErrorResponse(
+            stackWindow
         );
+        response.parts = new ArrayList<>();
+        int pos = 0;
+        while (pos < stackWindow.length()) {
+            int rightPos = pos + 2000 >= stackWindow.length()
+                ? stackWindow.length()
+                : pos + 2000;
+            response.parts.add(stackWindow.substring(pos, rightPos));
+            pos += 2000;
+        }
+        return response;
     }
 }
