@@ -1,9 +1,9 @@
 version: '3.8'
 services:
   gateway:
-    build:
-    image:
-    container_name:
+    build: "./gateway"
+    image: "i_gateway"
+    container_name: "c_gateway"
     ports:
       - "8080:8080"
     depends_on:
@@ -11,9 +11,9 @@ services:
       - SHAREIT_SERVER_URL=http://server:9090
 
   server:
-    build:
-    image:
-    container_name:
+    build: "./server"
+    image: "i_server"
+    container_name: "c_server"
     ports:
       - "9090:9090"
     depends_on:
@@ -21,8 +21,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
 
   db:
-    image:
-    container_name:
+    image: postgres
+    container_name:pg
     ports:
       - "6541:5432"
     environment:

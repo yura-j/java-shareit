@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +10,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.dto.CreateCommentDto;
 import ru.practicum.shareit.dto.ItemDto;
+
+import java.util.Map;
 
 @Service
 public class ItemClient extends BaseClient {
@@ -42,7 +44,10 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> searchItemsByText(String text) {
-        return get("search?text=" + text);
+        Map<String, Object> parameters = Map.of(
+                "text", text
+        );
+        return get("/search?text={text}", null, parameters);
     }
 
     public ResponseEntity<Object> postComment(Long ownerId, Long itemId, CreateCommentDto dto) {

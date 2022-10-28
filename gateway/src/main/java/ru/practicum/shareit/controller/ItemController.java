@@ -1,11 +1,11 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.ItemClient;
+import ru.practicum.shareit.client.ItemClient;
 import ru.practicum.shareit.dto.CreateCommentDto;
 import ru.practicum.shareit.dto.ItemDto;
 import ru.practicum.shareit.marker.Create;

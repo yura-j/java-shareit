@@ -1,12 +1,12 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.RequestClient;
-import ru.practicum.shareit.dto.input.RequestCreateDto;
+import ru.practicum.shareit.client.RequestClient;
+import ru.practicum.shareit.dto.RequestCreateDto;
 import ru.practicum.shareit.marker.Create;
 
 import javax.validation.ValidationException;
