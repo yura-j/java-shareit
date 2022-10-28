@@ -12,7 +12,7 @@ import ru.practicum.shareit.item.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingsDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.Request;
 import ru.practicum.shareit.request.RequestRepository;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto createItem(ItemDto dto, Long ownerId) {
         User owner = userRepository.findById(ownerId).orElseThrow(NotFoundException::new);
         Long requestId = null != dto.getRequestId() ? dto.getRequestId() : 0L;
-        ItemRequest request = requestRepository.findById(requestId).orElse(null);
+        Request request = requestRepository.findById(requestId).orElse(null);
         Item item = ItemMapper.toItem(dto, owner, request);
         itemRepository.save(item);
         return ItemMapper.toItemDto(item);

@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void updateUser(@PathVariable Long userId) {
+    public void deleteUser(@PathVariable Long userId) {
         log.debug("Удален пользователь {}", userId);
         userService.deleteUser(userId);
     }

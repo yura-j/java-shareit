@@ -7,7 +7,8 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingsDto;
 import ru.practicum.shareit.item.implementation.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.Request;
+import ru.practicum.shareit.request.dto.output.ItemRequestDto;
 import ru.practicum.shareit.user.User;
 
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class ItemMapper {
                 .build();
     }
 
-    public static Item toItem(ItemDto dto, User owner, ItemRequest request) {
+    public static Item toItem(ItemDto dto, User owner, Request request) {
         return Item.builder()
                 .id(dto.getId())
                 .name(dto.getName())
@@ -62,6 +63,16 @@ public class ItemMapper {
         return BookingItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getIsAvailable())
+                .build();
+    }
+
+    public static ItemRequestDto toItemRequestDto(Item item) {
+        return ItemRequestDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .requestId(item.getRequest().getId())
                 .description(item.getDescription())
                 .available(item.getIsAvailable())
                 .build();

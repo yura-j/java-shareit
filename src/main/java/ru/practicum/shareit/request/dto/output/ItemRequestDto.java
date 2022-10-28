@@ -1,15 +1,16 @@
-package ru.practicum.shareit.request.dto;
+package ru.practicum.shareit.request.dto.output;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@Builder
 public class ItemRequestDto {
     private Long id;
+    private String name;
     private String description;
-    private Long requesterId;
-    private String created;
+    private Long requestId;
+    private Boolean available;
 }

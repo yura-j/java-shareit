@@ -1,6 +1,9 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingCreateDto;
@@ -13,6 +16,7 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import javax.validation.ValidationException;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -80,10 +84,11 @@ public class BookingService {
                 && end.isAfter(start);
     }
 
-    public List<BookingDto> getBookings(Long ownerId, Status status) {
-        List<Booking> bookings = REAL_STATE.contains(status)
-                ? bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(ownerId, status)
-                : bookingRepository.findAllByBookerIdOrderByStartDesc(ownerId);
+    public List<BookingDto> getBookings(Long ownerId, Status status, @Min(value = 0) Integer from, @Min(value = 0) Integer size) {
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "start"));
+        Page<Booking> bookings = REAL_STATE.contains(status)
+                ? bookingRepository.findAllByBookerIdAndStatus(ownerId, status, page)
+                : bookingRepository.findAllByBookerId(ownerId, page);
         User requester = userRepository.findById(ownerId).orElseThrow();
         return bookings
                 .stream()
@@ -92,11 +97,11 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
-    public List<BookingDto> getOwnerBookings(Long ownerId, Status status) {
-
-        List<Booking> bookings = REAL_STATE.contains(status)
-                ? bookingRepository.findAllByOwnerIdAndStatusOrderByStartDesc(ownerId, status.name())
-                : bookingRepository.findAllByOwnerIdOrderByStartDesc(ownerId);
+    public List<BookingDto> getOwnerBookings(Long ownerId, Status status, @Min(value = 0) Integer from, @Min(value = 0) Integer size) {
+        PageRequest page = PageRequest.of(from / size, size, Sort.by(Sort.Direction.DESC, "start_date"));
+        Page<Booking> bookings = REAL_STATE.contains(status)
+                ? bookingRepository.findAllByOwnerIdAndStatus(ownerId, status.name(), page)
+                : bookingRepository.findAllByOwnerId(ownerId, page);
 
         User requester = userRepository.findById(ownerId).orElseThrow();
         return bookings
