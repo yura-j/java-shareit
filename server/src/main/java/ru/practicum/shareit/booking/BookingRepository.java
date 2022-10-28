@@ -23,7 +23,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(nativeQuery = true,
             value = "SELECT * FROM bookings b WHERE b.item_id = ?1 and b.booker_id != ?2"
                     + " ORDER BY b.id"
-                    + " LIMIT 1,2")
+                    + " OFFSET 1 LIMIT 1")
     Booking findNextByItemIdAndNotOwnerId(Long id, Long ownerId);
 
 
